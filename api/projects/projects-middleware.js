@@ -7,7 +7,7 @@ function logger (req, res, next) {
   next();
 }
 
-function validateProjectId(req, res, next) {
+function validateProjectId (req, res, next) {
   const { id } = req.params;
   get(id)
   .then(project => {
@@ -24,7 +24,22 @@ function validateProjectId(req, res, next) {
   .catch(next);
 }
 
+function validateProject (req, res, next) {
+  let { name, description } = req.body;
+  if (name && description) {
+    name = name.trim();
+    description = description.trim();
+    next();
+  } else {
+    next({
+      status: 400,
+      message: 'name and description fields required'
+    });
+  }
+}
+
 module.exports = {
   logger,
-  validateProjectId
+  validateProjectId,
+  validateProject
 }
