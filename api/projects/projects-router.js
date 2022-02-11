@@ -8,7 +8,6 @@ router.use(logger);
 router.get('/', (req, res, next) => {
   Projects.get()
     .then(projects => {
-      console.log(projects);
       res.status(200).json(projects);
     })
     .catch(next);
