@@ -1,7 +1,7 @@
 // Write your "projects" router here!
 const router = require('express').Router();
 const Projects = require('./projects-model');
-const { logger } = require('./projects-middleware');
+const { logger, validateProjectId } = require('./projects-middleware');
 
 router.use(logger);
 
@@ -12,6 +12,10 @@ router.get('/', (req, res, next) => {
       res.status(200).json(projects);
     })
     .catch(next);
+});
+
+router.get('/:id', validateProjectId, (req, res) => {
+  res.json(req.project);
 });
 
 router.use((err, req, res, next) => {
